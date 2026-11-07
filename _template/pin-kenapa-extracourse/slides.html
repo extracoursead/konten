@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>PIN: Tanda anak butuh kelas privat</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=block" rel="stylesheet">
+<style>
+/* Seri PIN "Kenapa ExtraCourse" - Deep Sea ExtraFocus.
+   Satu warna latar per kedalaman: d1 permukaan sampai d7 laut dalam. */
+:root{
+  --navy:#0B2545; --ink:#0B2545; --white:#FFFFFF;
+  --sea:#37D6B5; --sea-deep:#0E9C84;
+  --d1:#A9DEF3; --d2:#4FA9D8; --d3:#2677B0; --d4:#1C5E96; --d5:#16487A; --d6:#10345F; --d7:#081A35;
+  --case:#0B2545; --face:#10345F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#777;font-family:'Plus Jakarta Sans',sans-serif;display:flex;flex-direction:column;gap:40px;align-items:center;padding:40px 0}
+.slide{width:1080px;height:1350px;position:relative;overflow:hidden;--fg:var(--ink);--chip:var(--ink);--chipfg:var(--white);color:var(--fg)}
+.d1{background:var(--d1)} .d2{background:var(--d2)}
+.d3{background:var(--d3)} .d4{background:var(--d4)} .d5{background:var(--d5)} .d6{background:var(--d6)} .d7{background:var(--d7)}
+.d3,.d4,.d5,.d6,.d7{--fg:var(--white);--chip:var(--white);--chipfg:var(--ink)}
+.abs{position:absolute}
+.sea{position:absolute;left:0;bottom:0;width:1080px;display:block}
+
+/* ---------- frame: sama di setiap posting PIN ---------- */
+.tab{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--white);z-index:20;
+  border-bottom:6px solid var(--sea-deep);border-radius:0 0 34px 34px;padding:12px 44px 14px 38px;
+  display:flex;align-items:center;gap:18px}
+.tab img{height:80px}
+.tab .word{font-family:'DM Serif Display',serif;font-size:48px;line-height:1;color:var(--ink)}
+.tab .sub{font-size:14px;font-weight:700;letter-spacing:3px;color:var(--sea-deep);margin-top:8px;white-space:nowrap}
+.corner{position:absolute;top:40px;font-size:24px;font-weight:600;line-height:1.25;z-index:20;color:var(--fg)}
+.corner.l{left:64px} .corner.r{right:64px;text-align:right}
+.corner b{font-weight:800}
+.bar{position:absolute;left:64px;right:64px;bottom:40px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:30px;z-index:20;color:var(--fg)}
+.bar span{display:flex;align-items:center;gap:14px}
+.bar i{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--chip);color:var(--chipfg)}
+.bar svg{width:30px;height:30px}
+
+/* ---------- komponen seri ---------- */
+.head{font-weight:800;letter-spacing:-.02em;line-height:1.06}
+/* titik cahaya: penanda tiap tanda di slide 3-5 */
+.light{display:inline-block;width:34px;height:34px;border-radius:50%;background:var(--sea);box-shadow:0 0 0 10px rgba(55,214,181,.28)}
+
+/* alat ukur kedalaman: 100 di permukaan, 0 di dasar */
+.gauge{position:absolute;top:222px;width:466px;height:722px;background:var(--case);border-radius:30px;color:var(--white)}
+.gauge .ttl{position:absolute;left:30px;right:24px;top:22px;font-size:33px;font-weight:800;line-height:1.14;letter-spacing:-.01em}
+.gauge .ttl span{font-weight:600;color:#D6E4F2}
+.gauge .tube{position:absolute;left:211px;top:150px;width:44px;height:464px;border-radius:22px;border:4px solid var(--white);overflow:hidden;
+  background:linear-gradient(to bottom,var(--d1) 0 14.3%,var(--d2) 0 28.6%,var(--d3) 0 42.9%,var(--d4) 0 57.2%,var(--d5) 0 71.5%,var(--d6) 0 85.8%,var(--d7) 0)}
+.gauge .end{position:absolute;left:183px;width:100px;text-align:center;font-size:24px;font-weight:700;color:#D6E4F2}
+.gauge .dot{position:absolute;left:220px;width:26px;height:26px;border-radius:50%;border:4px solid var(--case);transform:translateY(-50%)}
+.gauge .tag{position:absolute;transform:translateY(-50%);line-height:1}
+.gauge .tag.nat{left:22px;width:178px;text-align:right}
+.gauge .tag.diy{left:266px;width:186px}
+.gauge .lbl{font-size:27px;font-weight:700}
+.gauge .num{font-size:60px;font-weight:800;letter-spacing:-.03em;margin-top:6px;font-variant-numeric:tabular-nums}
+.gauge .note{font-size:24px;font-weight:600;line-height:1.16;color:#D6E4F2;margin-top:8px}
+.gauge .src{position:absolute;left:30px;right:20px;bottom:24px;font-size:22px;font-weight:500;color:#B9CDE3}
+.c-nat{background:var(--white)} .c-diy{background:var(--sea)}
+.t-diy{color:var(--sea)}
+
+/* tanda: garis turun dengan titik cahaya */
+.rail{position:absolute;left:89px;top:128px;bottom:112px;width:6px;background:rgba(255,255,255,.32)}
+.signs{position:absolute;left:150px;top:160px;width:866px;display:flex;flex-direction:column}
+.sign{position:relative}
+.sign>.light{position:absolute;left:-78px;top:13px}
+.pill{display:inline-block;background:var(--sea);color:var(--ink);font-size:32px;font-weight:800;padding:8px 24px;border-radius:30px;line-height:1.25}
+.big{font-size:92px;font-weight:800;line-height:1.06;letter-spacing:-.03em;margin-top:14px}
+.body{text-wrap:balance;font-size:44px;font-weight:600;line-height:1.24;margin-top:14px;letter-spacing:-.01em}
+.w590{width:590px}
+.bubble{position:relative;display:inline-block;background:var(--white);color:var(--ink);font-size:46px;font-weight:800;line-height:1.18;padding:24px 36px;border-radius:32px;margin-top:30px;letter-spacing:-.01em}
+.bubble::before{content:"";position:absolute;left:62px;top:-28px;border-left:18px solid transparent;border-right:26px solid transparent;border-bottom:30px solid var(--white)}
+.rule{position:absolute;left:150px;width:866px;font-size:60px;font-weight:800;line-height:1.12;letter-spacing:-.02em}
+.rule em{font-style:normal;color:var(--sea)}
+.stackdot{position:absolute;left:75px;width:34px;height:34px}
+.help{display:flex;flex-direction:column;gap:26px;position:absolute;left:150px;top:296px;width:866px}
+.help div{text-wrap:balance;position:relative;font-size:39px;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+.help .light{position:absolute;left:-78px;top:6px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.4" cy="6.6" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" d="M12 22s7-6.6 7-12a7 7 0 0 0-14 0c0 5.4 7 12 7 12z"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ 1 HOOK: permukaan ============ -->
+<section class="slide d1" id="s1">
+  <svg class="sea" height="640" viewBox="0 0 1080 640" aria-hidden="true">
+    <path fill="#86CEEC" d="M0 70 C150 20 300 20 450 66 S760 120 1080 44 V640 H0Z"/>
+    <path fill="#6BBDE4" d="M0 230 C180 180 330 190 520 236 S850 280 1080 210 V640 H0Z"/>
+    <path fill="#4FA9D8" d="M0 430 C200 385 380 400 560 440 S880 470 1080 410 V640 H0Z"/>
+    <!-- gelembung -->
+    <g fill="none" stroke="#FFFFFF" stroke-width="5">
+      <circle cx="150" cy="170" r="20"/><circle cx="212" cy="102" r="11"/><circle cx="104" cy="288" r="13"/>
+    </g>
+    <!-- lantern fish -->
+    <g transform="translate(250 92)">
+      <!-- ekor -->
+      <path fill="#0B2545" d="M558 196 L700 92 Q682 204 704 312 Z"/>
+      <!-- sirip atas dan bawah -->
+      <path fill="#16487A" d="M300 62 Q400 -14 494 74 Z"/>
+      <path fill="#16487A" d="M350 344 Q424 420 490 322 Z"/>
+      <!-- badan -->
+      <path fill="#0B2545" d="M112 202 C150 76 290 34 420 64 C510 86 580 150 600 200 C574 266 502 322 408 342 C280 366 146 322 112 202 Z"/>
+      <!-- perut -->
+      <path fill="#1C5E96" d="M150 244 C222 262 380 276 548 240 C510 290 456 322 400 332 C300 350 196 320 150 244 Z"/>
+      <!-- sirip samping -->
+      <path fill="#2677B0" d="M366 186 Q452 174 484 230 Q418 256 366 186 Z"/>
+      <!-- mata -->
+      <circle cx="232" cy="158" r="44" fill="#FFFFFF"/>
+      <circle cx="220" cy="160" r="23" fill="#0B2545"/>
+      <circle cx="212" cy="152" r="7" fill="#FFFFFF"/>
+      <!-- mulut -->
+      <path fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" d="M142 236 Q172 254 208 240"/>
+      <!-- tangkai dan lentera -->
+      <path fill="none" stroke="#0B2545" stroke-width="9" stroke-linecap="round" d="M224 74 C196 8 132 -22 62 2"/>
+      <circle cx="46" cy="10" r="46" fill="#37D6B5" opacity=".3"/>
+      <circle cx="46" cy="10" r="25" fill="#37D6B5"/>
+    </g>
+  </svg>
+
+  <div class="corner l"><b>Kenapa</b><br>ExtraCourse</div>
+  <div class="tab"><img src="assets/compass.png" alt=""><div><div class="word">ExtraCourse</div><div class="sub">LES PRIVAT SD · SMP · SMA · UMUM</div></div></div>
+  <div class="corner r"><b>1</b> / 7</div>
+
+  <div class="abs head" style="left:64px;top:158px;font-size:216px;line-height:.96;letter-spacing:-.04em">Bukan<br>malas.</div>
+  <div class="abs" style="left:68px;top:590px;width:900px;font-size:58px;font-weight:700;line-height:1.14;letter-spacing:-.015em">Bisa jadi anak butuh<br>pendamping belajar.</div>
+
+  <div class="abs" style="right:64px;top:640px;display:flex;align-items:center;gap:14px;font-size:36px;font-weight:800">Geser
+    <svg width="74" height="36" viewBox="0 0 74 36" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M4 18 H68 M52 4 L68 18 L52 32"/></svg>
+  </div>
+
+  <div class="bar"><span><i><svg><use href="#i-wa"/></svg></i>0812-2069-3313</span><span><i><svg><use href="#i-ig"/></svg></i>@extracourse_</span><span><i><svg><use href="#i-pin"/></svg></i>Jogja</span></div>
+</section>
+
+<!-- ============ 2 DATA: alat ukur kedalaman ============ -->
+<section class="slide d2" id="s2">
+  <svg class="sea" height="230" viewBox="0 0 1080 230" aria-hidden="true">
+    <path fill="#42A0D2" d="M0 60 C200 16 380 30 560 70 S880 96 1080 38 V230 H0Z"/>
+  </svg>
+
+  <div class="corner l"><b>Kenapa</b><br>ExtraCourse</div>
+  <div class="tab"><img src="assets/compass.png" alt=""><div><div class="word">ExtraCourse</div><div class="sub">LES PRIVAT SD · SMP · SMA · UMUM</div></div></div>
+  <div class="corner r"><b>2</b> / 7</div>
+
+  <div class="abs head" style="left:64px;top:146px;font-size:54px">Rata-rata nilai TKA, dari 100</div>
+
+  <div class="gauge" style="left:64px" data-nat="40.34" data-diy="51.65">
+    <div class="ttl">Matematika<br><span>SMP/MTs 2026</span></div>
+    <div class="end" style="top:118px">100</div>
+    <div class="tube"></div>
+    <div class="end" style="top:620px">0</div>
+    <i class="dot c-nat"></i><i class="dot c-diy"></i>
+    <div class="tag nat"><div class="lbl">Nasional</div><div class="num">40,34</div></div>
+    <div class="tag diy"><div class="lbl t-diy">DIY</div><div class="num t-diy">51,65</div><div class="note">tertinggi<br>se-Indonesia</div></div>
+    <div class="src">Sumber: Kemendikdasmen, 2026</div>
+  </div>
+
+  <div class="gauge" style="left:550px" data-nat="24.93" data-diy="30">
+    <div class="ttl">Bahasa Inggris<br><span>SMA/sederajat 2025</span></div>
+    <div class="end" style="top:118px">100</div>
+    <div class="tube"></div>
+    <div class="end" style="top:620px">0</div>
+    <i class="dot c-nat"></i><i class="dot c-diy"></i>
+    <div class="tag nat"><div class="lbl">Nasional</div><div class="num">24,93</div></div>
+    <div class="tag diy"><div class="lbl t-diy">DIY</div><div class="num t-diy">30,00</div><div class="note">tertinggi<br>se-Indonesia</div></div>
+    <div class="src">Sumber: Kemendikdasmen, 2025</div>
+  </div>
+
+  <div class="abs head" style="left:64px;top:972px;width:952px;font-size:80px;line-height:1.08">Kalau anak kesulitan,<br>ia tidak sendirian.</div>
+
+  <div class="bar"><span><i><svg><use href="#i-wa"/></svg></i>0812-2069-3313</span><span><i><svg><use href="#i-ig"/></svg></i>@extracourse_</span><span><i><svg><use href="#i-pin"/></svg></i>Jogja</span></div>
+</section>
+
+<!-- ============ 3 TANDA 1 DAN 2 ============ -->
+<section class="slide d3" id="s3">
+  <svg class="sea" height="230" viewBox="0 0 1080 230" aria-hidden="true"><path fill="#1C5E96" d="M0 60 C200 16 380 30 560 70 S880 96 1080 38 V230 H0Z"/></svg>
+  <div class="corner l"><b>Kenapa</b><br>ExtraCourse</div>
+  <div class="tab"><img src="assets/compass.png" alt=""><div><div class="word">ExtraCourse</div><div class="sub">LES PRIVAT SD · SMP · SMA · UMUM</div></div></div>
+  <div class="corner r"><b>3</b> / 7</div>
+  <div class="rail"></div>
+  <svg class="abs" style="left:760px;top:206px" width="256" height="230" viewBox="0 0 256 230" aria-hidden="true">
+    <rect x="0" y="20" width="50" height="210" rx="8" fill="#FFFFFF"/><rect x="68" y="72" width="50" height="158" rx="8" fill="#FFFFFF"/><rect x="136" y="120" width="50" height="110" rx="8" fill="#FFFFFF"/><rect x="204" y="170" width="50" height="60" rx="8" fill="#37D6B5"/>
+  </svg>
+  <svg class="abs" style="left:790px;top:680px" width="220" height="220" viewBox="0 0 220 220" aria-hidden="true">
+    <circle cx="110" cy="110" r="108" fill="#FFFFFF"/><circle cx="110" cy="110" r="88" fill="#0B2545"/>
+    <path fill="#37D6B5" d="M110 110 V22 A88 88 0 1 1 33 153 Z"/>
+    <path stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" d="M110 110 V38 M110 110 L46 146"/><circle cx="110" cy="110" r="11" fill="#FFFFFF"/>
+  </svg>
+  <div class="signs" style="top:176px;gap:150px">
+    <div class="sign"><i class="light"></i><span class="pill">Tanda 1</span><div class="big">Nilai turun</div><div class="body w590">di beberapa ulangan, bukan sekali saja.</div></div>
+    <div class="sign"><i class="light"></i><span class="pill">Tanda 2</span><div class="big w590">PR makan waktu</div><div class="body w590">jauh lebih lama, atau jadi drama tiap malam.</div></div>
+  </div>
+  <div class="bar"><span><i><svg><use href="#i-wa"/></svg></i>0812-2069-3313</span><span><i><svg><use href="#i-ig"/></svg></i>@extracourse_</span><span><i><svg><use href="#i-pin"/></svg></i>Jogja</span></div>
+</section>
+
+<!-- ============ 4 TANDA 3 DAN 4 ============ -->
+<section class="slide d4" id="s4">
+  <svg class="sea" height="230" viewBox="0 0 1080 230" aria-hidden="true"><path fill="#16487A" d="M0 60 C200 16 380 30 560 70 S880 96 1080 38 V230 H0Z"/></svg>
+  <div class="corner l"><b>Kenapa</b><br>ExtraCourse</div>
+  <div class="tab"><img src="assets/compass.png" alt=""><div><div class="word">ExtraCourse</div><div class="sub">LES PRIVAT SD · SMP · SMA · UMUM</div></div></div>
+  <div class="corner r"><b>4</b> / 7</div>
+  <div class="rail"></div>
+  <svg class="abs" style="left:806px;top:1046px" width="200" height="170" viewBox="0 0 270 230" aria-hidden="true">
+    <g transform="translate(30 70)"><path fill="#0B2545" d="M190 50 L250 12 L250 96 Z"/><path fill="#0B2545" d="M20 54 C50 4 150 0 200 52 C150 104 50 104 20 54 Z"/></g>
+    <path fill="#37D6B5" d="M20 230 C-10 150 40 110 20 30 C80 80 96 150 70 230 Z"/>
+    <path fill="#2CB89B" d="M62 230 C44 170 96 130 78 62 C138 108 146 170 118 230 Z"/>
+    <path fill="#37D6B5" d="M108 230 C100 190 136 170 128 124 C170 156 176 196 158 230 Z"/>
+    <path fill="#16487A" d="M-6 232 Q90 186 186 232 Z"/>
+  </svg>
+  <div class="signs" style="gap:60px">
+    <div class="sign"><i class="light"></i><span class="pill">Tanda 3</span><div class="big">Mulai menghindar</div><div class="body">"Lupa" PR, banyak alasan untuk tidak belajar.</div></div>
+    <div class="sign"><i class="light"></i><span class="pill">Tanda 4</span><div class="big">Kepercayaan<br>diri turun</div><div class="body">Misalnya bilang:</div><div class="bubble">"Aku nggak bisa<br>Matematika/Bahasa Inggris."</div></div>
+  </div>
+  <div class="bar"><span><i><svg><use href="#i-wa"/></svg></i>0812-2069-3313</span><span><i><svg><use href="#i-ig"/></svg></i>@extracourse_</span><span><i><svg><use href="#i-pin"/></svg></i>Jogja</span></div>
+</section>
+
+<!-- ============ 5 TANDA 5 DAN PATOKAN ============ -->
+<section class="slide d5" id="s5">
+  <svg class="sea" height="230" viewBox="0 0 1080 230" aria-hidden="true"><path fill="#10345F" d="M0 60 C200 16 380 30 560 70 S880 96 1080 38 V230 H0Z"/></svg>
+  <div class="corner l"><b>Kenapa</b><br>ExtraCourse</div>
+  <div class="tab"><img src="assets/compass.png" alt=""><div><div class="word">ExtraCourse</div><div class="sub">LES PRIVAT SD · SMP · SMA · UMUM</div></div></div>
+  <div class="corner r"><b>5</b> / 7</div>
+  <div class="rail"></div>
+  <div class="signs">
+    <div class="sign"><i class="light"></i><span class="pill">Tanda 5</span><div class="big">Masa rawan</div><div class="body">Naik jenjang atau menjelang ujian.</div></div>
+  </div>
+  <i class="light stackdot" style="top:510px"></i>
+  <div class="rule" style="top:500px">Satu tanda itu <em>wajar.</em></div>
+  <i class="light stackdot" style="top:630px"></i><i class="light stackdot" style="top:698px"></i>
+  <div class="rule" style="top:620px">Dua tanda atau lebih<br>yang bertahan lama,<br><em>saatnya dibantu.</em></div>
+  <div class="abs" style="left:150px;top:860px;width:866px;font-size:33px;font-weight:600;line-height:1.3;padding-top:28px;border-top:4px solid rgba(255,255,255,.4)">Kalau anak sangat kesulitan membaca/menulis atau terlihat tertekan, bicarakan juga dengan guru sekolah atau psikolog.</div>
+  <div class="bar"><span><i><svg><use href="#i-wa"/></svg></i>0812-2069-3313</span><span><i><svg><use href="#i-ig"/></svg></i>@extracourse_</span><span><i><svg><use href="#i-pin"/></svg></i>Jogja</span></div>
+</section>
+
+<!-- ============ 6 CARA MEMBANTU ============ -->
+<section class="slide d6" id="s6">
+  <svg class="sea" height="230" viewBox="0 0 1080 230" aria-hidden="true"><path fill="#081A35" d="M0 60 C200 16 380 30 560 70 S880 96 1080 38 V230 H0Z"/></svg>
+  <div class="corner l"><b>Kenapa</b><br>ExtraCourse</div>
+  <div class="tab"><img src="assets/compass.png" alt=""><div><div class="word">ExtraCourse</div><div class="sub">LES PRIVAT SD · SMP · SMA · UMUM</div></div></div>
+  <div class="corner r"><b>6</b> / 7</div>
+  <div class="rail" style="top:302px;bottom:590px"></div>
+  <div class="abs head" style="left:64px;top:146px;font-size:66px">Cara ExtraFocus membantu</div>
+  <div class="abs" style="left:66px;top:226px;width:950px;font-size:33px;font-weight:600;line-height:1.2">ExtraFocus adalah program kelas privat dari ExtraCourse.</div>
+  <div class="help">
+    <div><i class="light"></i>Materi mengikuti pelajaran dan ulangan di sekolah</div>
+    <div><i class="light"></i>Tutor mendampingi, bukan sekadar menyampaikan materi</div>
+    <div><i class="light"></i>Anak boleh bertanya dan salah tanpa tekanan</div>
+    <div><i class="light"></i>Orang tua menerima laporan belajar bulanan dan akses Portal Orang Tua</div>
+    <div><i class="light"></i>Belajar online, atau tutor datang ke rumah di Jogja</div>
+  </div>
+  <div class="abs" style="left:64px;top:910px;width:952px">
+    <div style="font-size:54px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--sea)">Kami tidak menjanjikan hasil instan.</div>
+    <div style="font-size:39px;font-weight:600;line-height:1.24;margin-top:16px">Yang kami jaga adalah proses belajar yang terarah, jujur, dan bisa dipantau.</div>
+  </div>
+  <div class="bar"><span><i><svg><use href="#i-wa"/></svg></i>0812-2069-3313</span><span><i><svg><use href="#i-ig"/></svg></i>@extracourse_</span><span><i><svg><use href="#i-pin"/></svg></i>Jogja</span></div>
+</section>
+
+<!-- ============ 7 CTA: laut dalam ============ -->
+<section class="slide d7" id="s7">
+  <svg class="sea" height="560" viewBox="0 0 1080 560" style="overflow:visible" aria-hidden="true">
+    <path fill="#10345F" d="M0 420 C140 372 260 400 420 430 S800 380 1080 412 V560 H0Z"/>
+    <g transform="translate(290 24) scale(.92)">
+      <path fill="#1C5E96" d="M558 196 L700 92 Q682 204 704 312 Z"/>
+      <path fill="#2677B0" d="M300 62 Q400 -14 494 74 Z"/>
+      <path fill="#2677B0" d="M350 344 Q424 420 490 322 Z"/>
+      <path fill="#1C5E96" d="M112 202 C150 76 290 34 420 64 C510 86 580 150 600 200 C574 266 502 322 408 342 C280 366 146 322 112 202 Z"/>
+      <path fill="#2677B0" d="M150 244 C222 262 380 276 548 240 C510 290 456 322 400 332 C300 350 196 320 150 244 Z"/>
+      <path fill="#4FA9D8" d="M366 186 Q452 174 484 230 Q418 256 366 186 Z"/>
+      <circle cx="232" cy="158" r="44" fill="#FFFFFF"/><circle cx="220" cy="160" r="23" fill="#081A35"/><circle cx="212" cy="152" r="7" fill="#FFFFFF"/>
+      <path fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" d="M142 236 Q172 254 208 240"/>
+      <path fill="none" stroke="#1C5E96" stroke-width="9" stroke-linecap="round" d="M224 74 C196 8 132 -22 62 2"/>
+      <circle cx="46" cy="10" r="46" fill="#37D6B5" opacity=".3"/><circle cx="46" cy="10" r="25" fill="#37D6B5"/>
+    </g>
+  </svg>
+  <div class="corner l"><b>Kenapa</b><br>ExtraCourse</div>
+  <div class="tab"><img src="assets/compass.png" alt=""><div><div class="word">ExtraCourse</div><div class="sub">LES PRIVAT SD · SMP · SMA · UMUM</div></div></div>
+  <div class="corner r"><b>7</b> / 7</div>
+  <div class="abs head" style="left:64px;top:150px;width:952px;font-size:96px">Ceritakan kondisi<br>anak lewat<br>WhatsApp dulu.</div>
+  <div class="abs" style="left:64px;top:498px;display:flex;align-items:center;gap:22px;background:var(--sea);color:var(--ink);padding:20px 44px 20px 30px;border-radius:60px;font-size:72px;font-weight:800;letter-spacing:-.02em;line-height:1.1">
+    <svg width="72" height="72" aria-hidden="true"><use href="#i-wa"/></svg>0812-2069-3313
+  </div>
+  <div class="abs" style="left:68px;top:656px;font-size:42px;font-weight:600">Info lengkap di <b style="font-weight:800">extracourse.id</b></div>
+  <div class="bar"><span><i><svg><use href="#i-wa"/></svg></i>0812-2069-3313</span><span><i><svg><use href="#i-ig"/></svg></i>@extracourse_</span><span><i><svg><use href="#i-pin"/></svg></i>Jogja</span></div>
+</section>
+
+<script>
+// Tempatkan titik dan label di tabung kedalaman (100 di atas, 0 di bawah).
+document.querySelectorAll('.gauge').forEach(function (g) {
+  var y = function (v) { return 150 + (100 - v) / 100 * 464; };
+  var nat = y(parseFloat(g.dataset.nat)), diy = y(parseFloat(g.dataset.diy));
+  g.querySelector('.dot.c-nat').style.top = nat + 'px';
+  g.querySelector('.dot.c-diy').style.top = diy + 'px';
+  g.querySelector('.tag.nat').style.top = nat + 'px';
+  g.querySelector('.tag.diy').style.top = diy + 'px';
+});
+</script>
+</body>
+</html>

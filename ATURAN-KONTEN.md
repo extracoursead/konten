@@ -37,6 +37,10 @@ Lolos jika variabel 1 dan 4 terpenuhi dan minimal 6 dari 8. Jika tidak, ubah sud
 - Pakai benda nyata. Tanpa latar kotak-kotak, tidak boleh terlihat buatan AI, sederhana.
 - Tanpa emoji. Tanpa ajakan "simpan" atau "jawab di komentar". Jangan menjanjikan tes level gratis.
 - Ajakan: WA 0812-2069-3313 dan extracourse.id.
+- Data internal (jumlah kelas, siswa, guru, omzet, honor) tidak pernah ditampilkan sebagai angka ke publik.
+  Data internal hanya landasan seleksi; bila perlu tampil, cukup proporsi tanpa total (mis. "sebagian besar kelas").
+- Tanpa properti hiasan yang tidak punya fungsi (mis. pulpen/pensil sekadar pengisi ruang).
+- Data publik wajib dari sumber terpercaya dan sumbernya ditulis di slide.
 
 ## 5. Alur
 - Desain dikirim satu per satu dan menunggu persetujuan. "Oke" untuk desain bukan izin menjadwalkan.

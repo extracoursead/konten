@@ -11,3 +11,5 @@ Tempat transit media untuk Metricool. File diakses lewat GitHub Pages:
 4. Jika riwayat repo mulai besar, riwayat boleh dikosongkan (repo ini hanya berisi media).
 
 Template sumber desain ada di `_template/`.
+
+Aturan desain dan seleksi konten: lihat `ATURAN-KONTEN.md` (wajib dibaca sebelum membuat konten).

@@ -1,0 +1,92 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:'PJ';src:url('../gf/ofl/plusjakartasans/PlusJakartaSans[wght].ttf');font-weight:200 800}
+@font-face{font-family:'DMS';src:url('../gf/ofl/dmserifdisplay/DMSerifDisplay-Regular.ttf')}
+@font-face{font-family:'DMS';font-style:italic;src:url('../gf/ofl/dmserifdisplay/DMSerifDisplay-Italic.ttf')}
+html,body{margin:0;background:transparent}
+#s{width:1080px;height:1920px;position:relative;overflow:hidden;font-family:'PJ',sans-serif;color:#fff}
+.abs{position:absolute}
+.shadeB{left:0;right:0;bottom:0;height:950px;background:linear-gradient(to top,rgba(10,24,48,.93) 0%,rgba(10,24,48,.78) 38%,rgba(10,24,48,0) 100%)}
+.shadeT{left:0;right:0;top:0;height:1250px;background:linear-gradient(to bottom,rgba(10,24,48,.92) 0%,rgba(10,24,48,.72) 55%,rgba(10,24,48,0) 100%)}
+.tagShade{left:0;right:0;top:0;height:380px;background:linear-gradient(to bottom,rgba(10,24,48,.55),rgba(10,24,48,0))}
+.tag{left:80px;top:150px;display:flex;align-items:center;gap:18px;font-weight:700;font-size:30px;letter-spacing:6px}
+.tag img{height:66px}
+.cap{left:80px;right:80px;bottom:330px;font-weight:800;font-size:68px;line-height:1.22;letter-spacing:-1px}
+.cap .w{display:inline-block;white-space:pre}
+.cap em{font-family:'DMS';font-weight:400;font-style:italic;color:#F3A15F;letter-spacing:0}
+.pill{display:inline-block;background:#E8792B;color:#13294B;font-weight:800;font-size:38px;letter-spacing:6px;padding:14px 30px;border-radius:999px}
+.bar{height:6px;border-radius:3px;background:#E8792B}
+</style></head><body><div id="s">
+<div id="shT" class="abs shadeT"></div>
+<div id="shB" class="abs shadeB"></div>
+<div id="tagS" class="abs tagShade"></div>
+<div id="tag" class="abs tag"><img src="compass.png">EXTRACOURSE</div>
+<div id="hook" class="abs" style="left:80px;right:80px;top:220px">
+  <span id="pill" class="pill">25 NOVEMBER</span>
+  <div id="ht" style="font-family:'DMS';font-size:150px;line-height:1;margin-top:40px"><div class="hl">Selamat</div><div class="hl" style="font-style:italic;color:#F3A15F">Hari Guru</div><div class="hl">Nasional</div></div>
+  <div id="hbar" class="bar" style="width:180px;margin-top:40px"></div>
+  <div id="hs" class="cap" style="position:static;font-weight:700;font-size:48px;line-height:1.3;margin-top:30px;color:#E6ECF5;letter-spacing:0"></div>
+</div>
+<div id="cap" class="abs cap"></div>
+<div id="end" class="abs" style="inset:0;background:radial-gradient(circle at 50% 36%,#1E3C6B 0%,#13294B 62%)">
+  <img id="eLogo" src="compass.png" style="position:absolute;left:50%;top:290px;height:360px;margin-left:-65px">
+  <div style="position:absolute;left:60px;right:60px;top:735px;text-align:center;font-family:'DMS';font-size:120px;line-height:1.02">
+    <div class="el">Selamat</div><div class="el" style="font-style:italic;color:#F3A15F">Hari Guru</div><div class="el">Nasional</div></div>
+  <div id="eDate" style="position:absolute;left:0;right:0;top:1150px;text-align:center;font-weight:700;font-size:40px;letter-spacing:8px;color:#C8D3E6">25 NOVEMBER 2026</div>
+  <div id="eFoot" style="position:absolute;left:90px;right:90px;bottom:300px;text-align:center;border-top:2px solid rgba(255,255,255,.18);padding-top:46px">
+    <div style="font-weight:800;font-size:44px">ExtraCourse</div>
+    <div style="font-weight:600;font-size:36px;margin-top:14px;color:#C8D3E6">WA 0812-2069-3313 · extracourse.id</div></div>
+</div>
+</div>
+<script>
+const FPS=30, CUT=[0,84,168,251,335,412,496,580,663,785], END=785;
+const clamp=x=>Math.max(0,Math.min(1,x)), ease=x=>1-Math.pow(1-clamp(x),3);
+// caption scenes: [startFrame,endFrame,html words, revealFromIndex start offsets]
+const CAPS=[
+ [84,168,'Setiap halaman yang <em>akhirnya</em> selesai dikerjakan,'],
+ [168,251,'setiap kalimat yang <em>berani</em> ditulis sendiri,'],
+ [251,335,'setiap soal yang <em>tadinya</em> bikin bingung,'],
+ [335,496,'ada guru yang menjelaskan <em>sekali lagi,</em> dengan sabar.'],
+ [496,663,'Di rumah, di kelas, <em>maupun online.</em>',{split:3,at:580}],
+ [663,785,'Terima kasih, Bapak dan Ibu guru <em>ExtraCourse.</em>']];
+function words(html){ // split into word spans keeping em
+  const out=[]; const re=/<em>(.*?)<\/em>|(\S+)/g; let m;
+  while((m=re.exec(html))){ if(m[1]!==undefined) m[1].split(' ').forEach(w=>out.push('<em>'+w+'</em>')); else out.push(m[2]); }
+  return out;
+}
+const cap=document.getElementById('cap'); let curCap=-1, spans=[];
+function wordStyle(el,p){const e=ease(p); el.style.opacity=e; el.style.transform=`translateY(${(1-e)*28}px)`; el.style.filter=`blur(${(1-e)*6}px)`;}
+const hs=document.getElementById('hs'); hs.innerHTML=words('Untuk guru-guru ExtraCourse yang sabar mendampingi.').map(w=>`<span class="w">${w} </span>`).join('');
+const hsW=[...hs.children];
+function render(f){
+  const t=f/FPS;
+  // hook
+  const inHook=f<84, hookOut=clamp((f-76)/8);
+  document.getElementById('hook').style.opacity=inHook?1-hookOut:0;
+  document.getElementById('shT').style.opacity=inHook?1-hookOut:0;
+  document.getElementById('hook').style.transform=`scale(${1.035-0.035*ease(f/84)})`;
+  document.getElementById('hook').style.transformOrigin='0 0';
+  [...document.querySelectorAll('.hl')].forEach((el,i)=>{const p=i===0?1:clamp((f-1-i*4)/8); wordStyle(el, i===0?1:p)});
+  document.getElementById('hbar').style.width=(180*ease((f-10)/14))+'px';
+  hsW.forEach((el,i)=>wordStyle(el,(f-14-i*2.4)/11));
+  // tag
+  const tagOn=f>=84&&f<END+6? clamp((f-84)/8)*(1-clamp((f-END)/6)):0;
+  document.getElementById('tag').style.opacity=tagOn; document.getElementById('tagS').style.opacity=tagOn;
+  // captions
+  let ci=CAPS.findIndex(c=>f>=c[0]&&f<c[1]);
+  const shB=document.getElementById('shB');
+  shB.style.opacity=(f>=84&&f<END+8)?clamp((f-84)/8)*(1-clamp((f-END)/8)):0;
+  if(ci!==curCap){curCap=ci; cap.innerHTML=ci<0?'':words(CAPS[ci][2]).map(w=>`<span class="w">${w} </span>`).join(''); spans=[...cap.children];}
+  if(ci>=0){const [s,e,,opt]=CAPS[ci]; const out=clamp((f-(e-7))/7);
+    spans.forEach((el,i)=>{let st=s+4+i*2.6; if(opt&&i>=opt.split) st=opt.at+3+(i-opt.split)*3; wordStyle(el,(f-st)/11); if(out>0) el.style.opacity=parseFloat(el.style.opacity)*(1-out);});
+    if(ci===CAPS.length-1){ /* last caption fades into end card */ }
+  }
+  // end card
+  const eo=clamp((f-END)/12); const end=document.getElementById('end'); end.style.opacity=eo;
+  const ef=f-END;
+  const lg=ease((ef-4)/16); const L=document.getElementById('eLogo'); L.style.opacity=lg; L.style.transform=`translateY(${(1-lg)*-50}px) rotate(${(1-lg)*-12}deg)`;
+  [...document.querySelectorAll('.el')].forEach((el,i)=>wordStyle(el,(ef-12-i*6)/14));
+  wordStyle(document.getElementById('eDate'),(ef-34)/14);
+  wordStyle(document.getElementById('eFoot'),(ef-44)/14);
+}
+render(0);
+</script></body></html>
